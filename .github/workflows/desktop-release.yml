@@ -68,6 +68,7 @@ jobs:
           chmod +x scripts/install_mac.command
           mkdir -p mac_installer
           cp scripts/install_mac.command "mac_installer/Install_LE.GO.LAS.command"
+          cp scripts/ИНСТРУКЦИЯ_ПО_УСТАНОВКЕ.txt "mac_installer/ИНСТРУКЦИЯ_ПО_УСТАНОВКЕ.txt"
           cp -R "src-tauri/target/${{ matrix.target }}/release/bundle/macos/LE.GO.LAS.app" mac_installer/
           cd mac_installer
           zip -r "../LE.GO.LAS_macOS_${{ matrix.arch_name }}_OneClick_Installer.zip" .
