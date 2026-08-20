@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LE.GO.LAS Desktop</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #090d16;
+      color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(56, 189, 248, 0.2);
+      border-top-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    h2 { margin: 0 0 8px 0; font-weight: 600; font-size: 20px; }
+    p { margin: 0; color: #94a3b8; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>LE.GO.LAS</h2>
+  <p>Загрузка корпоративной платформы...</p>
+  <script>
+    // Auto-redirect to production server
+    setTimeout(() => {
+      window.location.href = "https://go.uniauto.uz";
+    }, 500);
+  </script>
+</body>
+</html>

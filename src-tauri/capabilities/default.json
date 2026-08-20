@@ -1,0 +1,21 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Default capabilities for LE.GO.LAS Desktop",
+  "windows": ["main"],
+  "remote": {
+    "urls": [
+      "https://go.uniauto.uz",
+      "https://go.uniauto.uz/*",
+      "http://localhost:3000",
+      "http://localhost:3000/*"
+    ]
+  },
+  "permissions": [
+    "core:default",
+    "notification:default",
+    "global-shortcut:default",
+    "autostart:default",
+    "shell:default"
+  ]
+}
