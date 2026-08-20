@@ -18,8 +18,10 @@ jobs:
             target: "x86_64-pc-windows-msvc"
           - platform: "macos-latest"
             target: "aarch64-apple-darwin"
+            arch_name: "arm64"
           - platform: "macos-13"
             target: "x86_64-apple-darwin"
+            arch_name: "x64"
           - platform: "ubuntu-22.04"
             target: "x86_64-unknown-linux-gnu"
 
@@ -55,7 +57,27 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "LE.GO.LAS Desktop ${{ github.ref_name }}"
-          releaseBody: "Корпоративное приложение LE.GO.LAS для Windows (.exe, .msi), macOS (.dmg) и Linux (.AppImage, .deb)."
+          releaseBody: "Корпоративное приложение LE.GO.LAS для Windows (.exe, .msi), macOS (.dmg, .zip с автоустановщиком) и Linux (.AppImage, .deb)."
           releaseDraft: false
           prerelease: false
           args: --target ${{ matrix.target }}
+
+      - name: Package One-Click macOS Installer Zip
+        if: startsWith(matrix.platform, 'macos')
+        run: |
+          chmod +x scripts/install_mac.command
+          mkdir -p mac_installer
+          cp scripts/install_mac.command "mac_installer/Install_LE.GO.LAS.command"
+          cp -R "src-tauri/target/${{ matrix.target }}/release/bundle/macos/LE.GO.LAS.app" mac_installer/
+          cd mac_installer
+          zip -r "../LE.GO.LAS_macOS_${{ matrix.arch_name }}_OneClick_Installer.zip" .
+          cd ..
+
+      - name: Upload One-Click macOS Zip to Release
+        if: startsWith(matrix.platform, 'macos')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: "LE.GO.LAS_macOS_${{ matrix.arch_name }}_OneClick_Installer.zip"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
