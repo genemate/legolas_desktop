@@ -7,3 +7,6 @@ npm-debug.log*
 
 # Tauri generated
 src-tauri/gen/
+
+# Local Cargo overrides
+src-tauri/.cargo/

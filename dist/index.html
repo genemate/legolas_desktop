@@ -5,44 +5,283 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LE.GO.LAS Desktop</title>
   <style>
-    body {
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --primary: #0284c7;
+      --primary-light: #38bdf8;
+      --accent: #06b6d4;
+      --border: rgba(56, 189, 248, 0.18);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background-color: #090d16;
-      color: #f8fafc;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% 20%, rgba(2, 132, 199, 0.18) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 20% 70%, rgba(30, 58, 138, 0.2) 0%, transparent 50%);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient animated mesh particles */
+    .ambient-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(2, 132, 199, 0) 70%);
+      border-radius: 50%;
+      filter: blur(50px);
+      animation: pulseGlow 5s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes pulseGlow {
+      0% { transform: scale(0.85) translate(0, 0); opacity: 0.6; }
+      100% { transform: scale(1.15) translate(10px, -15px); opacity: 0.9; }
+    }
+
+    /* Glassmorphism Card Container */
+    .card {
+      position: relative;
+      z-index: 10;
+      background: var(--card-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      box-shadow: 
+        0 20px 50px -10px rgba(0, 0, 0, 0.7),
+        0 0 40px -10px rgba(56, 189, 248, 0.15),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
+      border-radius: 28px;
+      padding: 44px 48px;
+      width: 420px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
+      animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Logo Container with Glow Aura */
+    .logo-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
     }
-    .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(56, 189, 248, 0.2);
-      border-top-color: #38bdf8;
+
+    .logo-aura {
+      position: absolute;
+      inset: -6px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(2, 132, 199, 0.1));
+      filter: blur(14px);
+      animation: auraPulse 3s infinite ease-in-out alternate;
+    }
+
+    @keyframes auraPulse {
+      0% { opacity: 0.4; transform: scale(0.95); }
+      100% { opacity: 0.85; transform: scale(1.08); }
+    }
+
+    .logo-box {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border-radius: 22px;
+      background: linear-gradient(145deg, #0f172a, #090d16);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo-img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+    }
+
+    /* Title and Subtitle */
+    .title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      background: linear-gradient(135deg, #ffffff 30%, #93c5fd 70%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      background: #38bdf8;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      box-shadow: 0 0 8px #38bdf8;
+      animation: blink 1.6s infinite ease-in-out;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
     }
-    h2 { margin: 0 0 8px 0; font-weight: 600; font-size: 20px; }
-    p { margin: 0; color: #94a3b8; font-size: 14px; }
+
+    /* Progress bar */
+    .progress-container {
+      width: 100%;
+      height: 5px;
+      background: rgba(30, 41, 59, 0.7);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 45%;
+      background: linear-gradient(90deg, transparent, #0284c7, #38bdf8, #a5f3fc, transparent);
+      border-radius: 999px;
+      box-shadow: 0 0 12px #38bdf8;
+      animation: shimmerProgress 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes shimmerProgress {
+      0% { left: -50%; width: 30%; }
+      50% { width: 60%; }
+      100% { left: 110%; width: 30%; }
+    }
+
+    /* Status text with smooth fade transition */
+    .status-text {
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      min-height: 18px;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Bottom footer watermark */
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      color: rgba(148, 163, 184, 0.4);
+      font-size: 11px;
+      letter-spacing: 0.05em;
+    }
   </style>
 </head>
 <body>
-  <div class="spinner"></div>
-  <h2>LE.GO.LAS</h2>
-  <p>Загрузка корпоративной платформы...</p>
+  <div class="ambient-glow"></div>
+
+  <div class="card">
+    <div class="logo-wrap">
+      <div class="logo-aura"></div>
+      <div class="logo-box">
+        <img class="logo-img" src="logo.png" alt="LE.GO.LAS" onerror="this.style.display='none'; document.getElementById('svg-fallback').style.display='block';">
+        <svg id="svg-fallback" style="display:none; width:44px; height:44px; fill:none; stroke:#38bdf8; stroke-width:2;" viewBox="0 0 24 24">
+          <path d="M4 4h7v16H4z M13 10h7v10h-7z" fill="rgba(56, 189, 248, 0.2)" stroke="#38bdf8"/>
+        </svg>
+      </div>
+    </div>
+
+    <h1 class="title">LE.GO.LAS</h1>
+    <div class="badge">
+      <span class="badge-dot"></span>
+      <span>ENTERPRISE EDITION</span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar"></div>
+    </div>
+
+    <div class="status-text" id="status">Подключение к защищенному серверу...</div>
+  </div>
+
+  <div class="footer">
+    SECURE WORKSPACE &bull; UNI AUTO ENTERPRISE
+  </div>
+
   <script>
-    // Auto-redirect to production server
+    const TARGET_URL = "https://go.uniauto.uz";
+    const statusEl = document.getElementById("status");
+
+    const steps = [
+      { text: "Подключение к защищенному шлюзу...", delay: 200 },
+      { text: "Инициализация криптопровайдера E-IMZO...", delay: 700 },
+      { text: "Загрузка рабочего пространства...", delay: 1200 }
+    ];
+
+    steps.forEach(step => {
+      setTimeout(() => {
+        if (statusEl) {
+          statusEl.style.opacity = "0";
+          setTimeout(() => {
+            statusEl.innerText = step.text;
+            statusEl.style.opacity = "1";
+          }, 150);
+        }
+      }, step.delay);
+    });
+
+    // Seamless redirect to production portal
     setTimeout(() => {
-      window.location.href = "https://go.uniauto.uz";
-    }, 500);
+      window.location.href = TARGET_URL;
+    }, 1500);
   </script>
 </body>
 </html>
